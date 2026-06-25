@@ -1,11 +1,6 @@
 {
   "version": 2,
-  "functions": {
-    "api/tasks/index.js": {
-      "includeFiles": "lib/**"
-    },
-    "api/tasks/[id].js": {
-      "includeFiles": "lib/**"
-    }
-  }
+  "rewrites": [
+    { "source": "/api/tasks/:id", "destination": "/api/tasks?id=:id" }
+  ]
 }
