@@ -3,9 +3,12 @@
    ============================================================ */
 
 const STORAGE_KEY = 'home-calendar-completions';
-const TASKS_API = '/api/tasks';
 const TASKS_DATA_FILE = 'data.json';
 const TASKS_STORAGE_KEY = 'home-calendar-tasks';
+const EDIT_PASSWORD_KEY = 'home-calendar-edit-password';
+
+let tasksApiBase = '/api/tasks';
+let tasksApiRequiresPassword = false;
 
 const MONTH_NAMES = [
   'January','February','March','April','May','June',
@@ -177,13 +180,34 @@ function clearDoneForMonth(taskId, year, month) {
 
 // ── Task persistence (data.json via API or static file) ─────────
 
-async function detectTasksApi() {
-  try {
-    const res = await fetch(TASKS_API, { method: 'GET' });
-    return res.ok;
-  } catch {
-    return false;
+function getTasksApiCandidates() {
+  const candidates = [];
+  const isLocal =
+    location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+
+  if (isLocal) candidates.push('/api/tasks');
+  if (window.ALMANAC_CONFIG?.tasksApi) candidates.push(window.ALMANAC_CONFIG.tasksApi);
+  if (!isLocal) candidates.push('/api/tasks');
+
+  return [...new Set(candidates)];
+}
+
+async function resolveTasksApi() {
+  for (const url of getTasksApiCandidates()) {
+    try {
+      const res = await fetch(url, { method: 'GET' });
+      if (!res.ok) continue;
+
+      tasksApiBase = url;
+      tasksApiRequiresPassword =
+        url !== '/api/tasks' &&
+        window.ALMANAC_CONFIG?.requiresEditPassword !== false;
+      return true;
+    } catch {
+      // try next candidate
+    }
   }
+  return false;
 }
 
 async function loadTasksFromFile() {
@@ -194,7 +218,7 @@ async function loadTasksFromFile() {
 }
 
 async function loadTasks() {
-  tasksApiAvailable = await detectTasksApi();
+  tasksApiAvailable = await resolveTasksApi();
   if (tasksApiAvailable) {
     baseTasks = await loadTasksFromServer();
     return baseTasks;
@@ -238,16 +262,37 @@ function isCustomAddedTask(taskId) {
 }
 
 async function loadTasksFromServer() {
-  const res = await fetch(TASKS_API);
+  const res = await fetch(tasksApiBase);
   if (!res.ok) throw new Error('Failed to load tasks from server');
   const data = await res.json();
   return data.tasks;
 }
 
+function getEditPassword() {
+  let password = sessionStorage.getItem(EDIT_PASSWORD_KEY);
+  if (password) return password;
+
+  password = prompt('Enter the edit password to save changes:');
+  if (password) sessionStorage.setItem(EDIT_PASSWORD_KEY, password);
+  return password;
+}
+
+function clearEditPassword() {
+  sessionStorage.removeItem(EDIT_PASSWORD_KEY);
+}
+
 async function apiRequest(method, url, body) {
+  const headers = {};
+  if (body) headers['Content-Type'] = 'application/json';
+  if (tasksApiRequiresPassword && method !== 'GET') {
+    const password = getEditPassword();
+    if (!password) throw new Error('Edit password required');
+    headers['X-Edit-Password'] = password;
+  }
+
   const res = await fetch(url, {
     method,
-    headers: body ? { 'Content-Type': 'application/json' } : undefined,
+    headers: Object.keys(headers).length ? headers : undefined,
     body: body ? JSON.stringify(body) : undefined,
   });
 
@@ -256,6 +301,11 @@ async function apiRequest(method, url, body) {
     payload = await res.json();
   } catch {
     payload = {};
+  }
+
+  if (res.status === 401 && tasksApiRequiresPassword) {
+    clearEditPassword();
+    throw new Error('Wrong edit password');
   }
 
   if (!res.ok) {
@@ -294,21 +344,21 @@ async function migrateLocalStorageTasksIfNeeded() {
 
   for (const id of custom.deletedIds) {
     if (allTasks.some(t => t.id === id)) {
-      const data = await apiRequest('DELETE', `${TASKS_API}/${encodeURIComponent(id)}`);
+      const data = await apiRequest('DELETE', `${tasksApiBase}/${encodeURIComponent(id)}`);
       allTasks = data.tasks;
     }
   }
 
   for (const task of Object.values(custom.modified)) {
     if (allTasks.some(t => t.id === task.id)) {
-      const data = await apiRequest('PUT', `${TASKS_API}/${encodeURIComponent(task.id)}`, task);
+      const data = await apiRequest('PUT', `${tasksApiBase}/${encodeURIComponent(task.id)}`, task);
       allTasks = data.tasks;
     }
   }
 
   for (const task of custom.added) {
     if (!allTasks.some(t => t.id === task.id)) {
-      const data = await apiRequest('POST', TASKS_API, task);
+      const data = await apiRequest('POST', tasksApiBase, task);
       allTasks = data.tasks;
     }
   }
@@ -327,7 +377,7 @@ function generateTaskId(name) {
 
 async function saveTaskRecord(task) {
   if (tasksApiAvailable) {
-    const data = await apiRequest('PUT', `${TASKS_API}/${encodeURIComponent(task.id)}`, task);
+    const data = await apiRequest('PUT', `${tasksApiBase}/${encodeURIComponent(task.id)}`, task);
     allTasks = data.tasks;
     return;
   }
@@ -344,7 +394,7 @@ async function saveTaskRecord(task) {
 
 async function addTaskRecord(task) {
   if (tasksApiAvailable) {
-    const data = await apiRequest('POST', TASKS_API, task);
+    const data = await apiRequest('POST', tasksApiBase, task);
     allTasks = data.tasks;
     return;
   }
@@ -356,7 +406,7 @@ async function addTaskRecord(task) {
 
 async function deleteTaskRecord(taskId) {
   if (tasksApiAvailable) {
-    const data = await apiRequest('DELETE', `${TASKS_API}/${encodeURIComponent(taskId)}`);
+    const data = await apiRequest('DELETE', `${tasksApiBase}/${encodeURIComponent(taskId)}`);
     allTasks = data.tasks;
     delete completions[taskId];
     saveCompletions();
@@ -582,6 +632,11 @@ function renderListView() {
     const note = document.createElement('p');
     note.className = 'task-list-readonly-note';
     note.textContent = 'Task edits on this site are saved in your browser on this device.';
+    container.appendChild(note);
+  } else if (tasksApiRequiresPassword) {
+    const note = document.createElement('p');
+    note.className = 'task-list-readonly-note';
+    note.textContent = 'Task edits are shared with everyone. You\u2019ll be prompted for the edit password when saving.';
     container.appendChild(note);
   }
 
