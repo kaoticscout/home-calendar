@@ -1,0 +1,13 @@
+# Frontend — served by GitHub Pages, not Vercel serverless
+app.js
+config.js
+server.js
+index.html
+style.css
+data.json
+data.origin.json
+lib/
+
+# Dev / CI only
+.github/
+.env.example
