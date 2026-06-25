@@ -5,7 +5,7 @@
 const STORAGE_KEY = 'home-calendar-completions';
 const TASKS_API = '/api/tasks';
 const TASKS_DATA_FILE = 'data.json';
-const TASKS_STORAGE_KEY = 'home-calendar-tasks'; // legacy — migrated to data.json on load
+const TASKS_STORAGE_KEY = 'home-calendar-tasks';
 
 const MONTH_NAMES = [
   'January','February','March','April','May','June',
@@ -37,9 +37,11 @@ const SEASONS = [
 ];
 
 // ── State ─────────────────────────────────────────────────────
-let allTasks            = [];
-let tasksApiAvailable   = false;
-let completions         = {};
+let baseTasks             = [];
+let allTasks              = [];
+let taskCustomizations    = { deletedIds: [], modified: {}, added: [] };
+let tasksApiAvailable     = false;
+let completions           = {};
 let currentSeason   = 0;    // index into SEASONS
 let currentSeasonYear = new Date().getFullYear();
 let currentView       = 'calendar'; // 'calendar' | 'list'
@@ -194,9 +196,45 @@ async function loadTasksFromFile() {
 async function loadTasks() {
   tasksApiAvailable = await detectTasksApi();
   if (tasksApiAvailable) {
-    return loadTasksFromServer();
+    baseTasks = await loadTasksFromServer();
+    return baseTasks;
   }
-  return loadTasksFromFile();
+  baseTasks = await loadTasksFromFile();
+  taskCustomizations = loadTaskCustomizations();
+  return mergeTaskCustomizations(baseTasks, taskCustomizations);
+}
+
+function loadTaskCustomizations() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(TASKS_STORAGE_KEY) || '{}');
+    return {
+      deletedIds: Array.isArray(raw.deletedIds) ? raw.deletedIds : [],
+      modified: raw.modified && typeof raw.modified === 'object' ? raw.modified : {},
+      added: Array.isArray(raw.added) ? raw.added : [],
+    };
+  } catch {
+    return { deletedIds: [], modified: {}, added: [] };
+  }
+}
+
+function saveTaskCustomizations() {
+  localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(taskCustomizations));
+}
+
+function mergeTaskCustomizations(tasks, custom) {
+  const merged = tasks
+    .filter(t => !custom.deletedIds.includes(t.id))
+    .map(t => custom.modified[t.id] || t);
+  return [...merged, ...custom.added];
+}
+
+function refreshAllTasks() {
+  if (tasksApiAvailable) return;
+  allTasks = mergeTaskCustomizations(baseTasks, taskCustomizations);
+}
+
+function isCustomAddedTask(taskId) {
+  return taskCustomizations.added.some(t => t.id === taskId);
 }
 
 async function loadTasksFromServer() {
@@ -228,23 +266,11 @@ async function apiRequest(method, url, body) {
 }
 
 function loadLegacyTaskCustomizations() {
-  try {
-    const raw = JSON.parse(localStorage.getItem(TASKS_STORAGE_KEY) || '{}');
-    return {
-      deletedIds: Array.isArray(raw.deletedIds) ? raw.deletedIds : [],
-      modified: raw.modified && typeof raw.modified === 'object' ? raw.modified : {},
-      added: Array.isArray(raw.added) ? raw.added : [],
-    };
-  } catch {
-    return { deletedIds: [], modified: {}, added: [] };
-  }
+  return loadTaskCustomizations();
 }
 
 function mergeLegacyCustomizations(baseTasks, custom) {
-  const tasks = baseTasks
-    .filter(t => !custom.deletedIds.includes(t.id))
-    .map(t => custom.modified[t.id] || t);
-  return [...tasks, ...custom.added];
+  return mergeTaskCustomizations(baseTasks, custom);
 }
 
 async function migrateLocalStorageTasksIfNeeded() {
@@ -300,29 +326,55 @@ function generateTaskId(name) {
 }
 
 async function saveTaskRecord(task) {
-  if (!tasksApiAvailable) {
-    throw new Error('Task editing requires the local server (npm start)');
+  if (tasksApiAvailable) {
+    const data = await apiRequest('PUT', `${TASKS_API}/${encodeURIComponent(task.id)}`, task);
+    allTasks = data.tasks;
+    return;
   }
-  const data = await apiRequest('PUT', `${TASKS_API}/${encodeURIComponent(task.id)}`, task);
-  allTasks = data.tasks;
+
+  if (isCustomAddedTask(task.id)) {
+    const idx = taskCustomizations.added.findIndex(t => t.id === task.id);
+    if (idx >= 0) taskCustomizations.added[idx] = task;
+  } else {
+    taskCustomizations.modified[task.id] = task;
+  }
+  saveTaskCustomizations();
+  refreshAllTasks();
 }
 
 async function addTaskRecord(task) {
-  if (!tasksApiAvailable) {
-    throw new Error('Task editing requires the local server (npm start)');
+  if (tasksApiAvailable) {
+    const data = await apiRequest('POST', TASKS_API, task);
+    allTasks = data.tasks;
+    return;
   }
-  const data = await apiRequest('POST', TASKS_API, task);
-  allTasks = data.tasks;
+
+  taskCustomizations.added.push(task);
+  saveTaskCustomizations();
+  refreshAllTasks();
 }
 
 async function deleteTaskRecord(taskId) {
-  if (!tasksApiAvailable) {
-    throw new Error('Task editing requires the local server (npm start)');
+  if (tasksApiAvailable) {
+    const data = await apiRequest('DELETE', `${TASKS_API}/${encodeURIComponent(taskId)}`);
+    allTasks = data.tasks;
+    delete completions[taskId];
+    saveCompletions();
+    return;
   }
-  const data = await apiRequest('DELETE', `${TASKS_API}/${encodeURIComponent(taskId)}`);
-  allTasks = data.tasks;
+
+  if (isCustomAddedTask(taskId)) {
+    taskCustomizations.added = taskCustomizations.added.filter(t => t.id !== taskId);
+  } else {
+    if (!taskCustomizations.deletedIds.includes(taskId)) {
+      taskCustomizations.deletedIds.push(taskId);
+    }
+    delete taskCustomizations.modified[taskId];
+  }
   delete completions[taskId];
+  saveTaskCustomizations();
   saveCompletions();
+  refreshAllTasks();
 }
 
 function escapeHtml(str) {
@@ -516,20 +568,20 @@ function renderListView() {
 
   container.innerHTML = '';
 
-  if (tasksApiAvailable) {
-    const toolbar = document.createElement('div');
-    toolbar.className = 'task-list-toolbar';
-    const addBtn = document.createElement('button');
-    addBtn.type = 'button';
-    addBtn.className = 'task-list-add-btn';
-    addBtn.textContent = '+ Add task';
-    addBtn.addEventListener('click', () => openTaskEditor('add'));
-    toolbar.appendChild(addBtn);
-    container.appendChild(toolbar);
-  } else {
+  const toolbar = document.createElement('div');
+  toolbar.className = 'task-list-toolbar';
+  const addBtn = document.createElement('button');
+  addBtn.type = 'button';
+  addBtn.className = 'task-list-add-btn';
+  addBtn.textContent = '+ Add task';
+  addBtn.addEventListener('click', () => openTaskEditor('add'));
+  toolbar.appendChild(addBtn);
+  container.appendChild(toolbar);
+
+  if (!tasksApiAvailable) {
     const note = document.createElement('p');
     note.className = 'task-list-readonly-note';
-    note.textContent = 'Viewing published tasks — run npm start locally to add or edit tasks.';
+    note.textContent = 'Task edits on this site are saved in your browser on this device.';
     container.appendChild(note);
   }
 
@@ -572,21 +624,18 @@ function renderListView() {
         <span class="task-list-row-dot dot-${catKey}"></span>
         <span class="task-list-row-name">${escapeHtml(task.name)}</span>
         <span class="task-list-row-freq">${escapeHtml(formatSchedule(task))}</span>
-        ${tasksApiAvailable ? `
         <span class="task-list-row-actions">
           <button type="button" class="task-list-action task-list-action--edit" aria-label="Edit ${escapeHtml(task.name)}">Edit</button>
           <button type="button" class="task-list-action task-list-action--delete" aria-label="Delete ${escapeHtml(task.name)}">Delete</button>
-        </span>` : ''}
+        </span>
       `;
 
-      if (tasksApiAvailable) {
-        li.querySelector('.task-list-action--edit').addEventListener('click', () => {
-          openTaskEditor('edit', task);
-        });
-        li.querySelector('.task-list-action--delete').addEventListener('click', () => {
-          deleteTaskWithConfirm(task);
-        });
-      }
+      li.querySelector('.task-list-action--edit').addEventListener('click', () => {
+        openTaskEditor('edit', task);
+      });
+      li.querySelector('.task-list-action--delete').addEventListener('click', () => {
+        deleteTaskWithConfirm(task);
+      });
 
       list.appendChild(li);
     });
