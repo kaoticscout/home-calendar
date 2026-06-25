@@ -1,3 +1,5 @@
+export const config = { runtime: 'edge' };
+
 const GITHUB_API = 'https://api.github.com';
 
 const DEFAULT_ORIGINS = [
@@ -12,31 +14,44 @@ function allowedOrigins() {
   return fromEnv.split(',').map(s => s.trim()).filter(Boolean);
 }
 
-function setCors(req, res) {
-  const headers = req?.headers || {};
-  const origin = headers.origin;
+function corsHeaders(request) {
+  const origin = request.headers.get('origin');
   const allowed = allowedOrigins();
+  const headers = new Headers({
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, X-Edit-Password',
+  });
+
   if (origin && allowed.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-    res.setHeader('Vary', 'Origin');
-  } else if (!origin) {
-    res.setHeader('Access-Control-Allow-Origin', allowed[0]);
+    headers.set('Access-Control-Allow-Origin', origin);
+    headers.set('Vary', 'Origin');
+  } else if (!origin && allowed[0]) {
+    headers.set('Access-Control-Allow-Origin', allowed[0]);
   }
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Edit-Password');
+
+  return headers;
 }
 
-function readBody(req) {
-  if (req.body && typeof req.body === 'object') return req.body;
-  if (typeof req.body === 'string' && req.body.trim()) return JSON.parse(req.body);
-  return null;
+function jsonResponse(request, status, body) {
+  const headers = corsHeaders(request);
+  headers.set('Content-Type', 'application/json; charset=utf-8');
+  return new Response(JSON.stringify(body), { status, headers });
 }
 
-function checkEditPassword(req) {
-  const required = process.env.EDIT_PASSWORD;
-  if (!required) return true;
-  const headers = req?.headers || {};
-  return headers['x-edit-password'] === required;
+function decodeBase64Json(b64) {
+  const binary = atob(b64.replace(/\s/g, ''));
+  const bytes = Uint8Array.from(binary, char => char.charCodeAt(0));
+  return JSON.parse(new TextDecoder().decode(bytes));
+}
+
+function encodeBase64Json(value) {
+  const str = JSON.stringify(value, null, 2) + '\n';
+  const bytes = new TextEncoder().encode(str);
+  let binary = '';
+  bytes.forEach(byte => {
+    binary += String.fromCharCode(byte);
+  });
+  return btoa(binary);
 }
 
 function githubConfig() {
@@ -63,37 +78,49 @@ async function readDataset() {
   const res = await fetch(`${GITHUB_API}/repos/${owner}/${repo}/contents/${path}`, {
     headers: githubHeaders(token),
   });
+
   if (!res.ok) {
     const err = await res.text();
     throw new Error(`GitHub read failed (${res.status}): ${err}`);
   }
+
   const file = await res.json();
-  const data = JSON.parse(Buffer.from(file.content, 'base64').toString('utf8'));
+  const data = decodeBase64Json(file.content);
   if (!Array.isArray(data.tasks)) {
     throw new Error('data.json must contain a "tasks" array');
   }
+
   return { data, sha: file.sha };
 }
 
 async function writeDataset(data, sha, message) {
   const { token, owner, repo, path } = githubConfig();
-  const content = Buffer.from(JSON.stringify(data, null, 2) + '\n').toString('base64');
   const res = await fetch(`${GITHUB_API}/repos/${owner}/${repo}/contents/${path}`, {
     method: 'PUT',
-    headers: { ...githubHeaders(token), 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message, content, sha }),
+    headers: {
+      ...githubHeaders(token),
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      message,
+      content: encodeBase64Json(data),
+      sha,
+    }),
   });
+
   if (res.status === 409) return { conflict: true };
   if (!res.ok) {
     const err = await res.text();
     throw new Error(`GitHub write failed (${res.status}): ${err}`);
   }
+
   return { conflict: false };
 }
 
 async function writeDatasetWithRetry(data, sha, message) {
   const result = await writeDataset(data, sha, message);
   if (!result.conflict) return;
+
   const fresh = await readDataset();
   const retry = await writeDataset(data, fresh.sha, message);
   if (retry.conflict) {
@@ -116,12 +143,14 @@ function isValidTask(task) {
 
 async function addTask(task) {
   if (!isValidTask(task)) throw new Error('Invalid task payload');
+
   const { data, sha } = await readDataset();
   if (data.tasks.some(t => t.id === task.id)) {
     const err = new Error(`Task id already exists: ${task.id}`);
     err.status = 409;
     throw err;
   }
+
   data.tasks.push({
     id: task.id,
     name: task.name.trim(),
@@ -129,6 +158,7 @@ async function addTask(task) {
     schedule: task.schedule,
     notes: typeof task.notes === 'string' ? task.notes : '',
   });
+
   await writeDatasetWithRetry(data, sha, `Add task: ${task.name.trim()}`);
   return data;
 }
@@ -137,6 +167,7 @@ async function updateTask(taskId, task) {
   if (!isValidTask(task) || task.id !== taskId) {
     throw new Error('Invalid task payload or id mismatch');
   }
+
   const { data, sha } = await readDataset();
   const idx = data.tasks.findIndex(t => t.id === taskId);
   if (idx === -1) {
@@ -144,6 +175,7 @@ async function updateTask(taskId, task) {
     err.status = 404;
     throw err;
   }
+
   data.tasks[idx] = {
     id: taskId,
     name: task.name.trim(),
@@ -151,6 +183,7 @@ async function updateTask(taskId, task) {
     schedule: task.schedule,
     notes: typeof task.notes === 'string' ? task.notes : (data.tasks[idx].notes ?? ''),
   };
+
   await writeDatasetWithRetry(data, sha, `Update task: ${task.name.trim()}`);
   return data;
 }
@@ -159,57 +192,72 @@ async function deleteTask(taskId) {
   const { data, sha } = await readDataset();
   const before = data.tasks.length;
   data.tasks = data.tasks.filter(t => t.id !== taskId);
+
   if (data.tasks.length === before) {
     const err = new Error('Task not found');
     err.status = 404;
     throw err;
   }
+
   await writeDatasetWithRetry(data, sha, `Delete task: ${taskId}`);
   return data;
 }
 
-export default async function handler(req, res) {
-  setCors(req, res);
-  if (req.method === 'OPTIONS') {
-    return res.status(204).end();
+function checkEditPassword(request) {
+  const required = process.env.EDIT_PASSWORD;
+  if (!required) return true;
+  return request.headers.get('x-edit-password') === required;
+}
+
+export default async function handler(request) {
+  if (request.method === 'OPTIONS') {
+    const headers = corsHeaders(request);
+    return new Response(null, { status: 204, headers });
   }
 
-  const taskId = decodeURIComponent(req.query?.id || '');
+  const url = new URL(request.url);
+  const taskId = url.searchParams.get('id') || '';
 
   try {
     if (!taskId) {
-      if (req.method === 'GET') {
+      if (request.method === 'GET') {
         const { data } = await readDataset();
-        return res.status(200).json(data);
+        return jsonResponse(request, 200, data);
       }
-      if (req.method === 'POST') {
-        if (!checkEditPassword(req)) {
-          return res.status(401).json({ error: 'Wrong or missing edit password' });
+
+      if (request.method === 'POST') {
+        if (!checkEditPassword(request)) {
+          return jsonResponse(request, 401, { error: 'Wrong or missing edit password' });
         }
-        const data = await addTask(readBody(req));
-        return res.status(201).json(data);
+        const task = await request.json();
+        const data = await addTask(task);
+        return jsonResponse(request, 201, data);
       }
-      return res.status(405).json({ error: 'Method not allowed' });
+
+      return jsonResponse(request, 405, { error: 'Method not allowed' });
     }
 
-    if (req.method === 'PUT') {
-      if (!checkEditPassword(req)) {
-        return res.status(401).json({ error: 'Wrong or missing edit password' });
+    if (request.method === 'PUT') {
+      if (!checkEditPassword(request)) {
+        return jsonResponse(request, 401, { error: 'Wrong or missing edit password' });
       }
-      const data = await updateTask(taskId, readBody(req));
-      return res.status(200).json(data);
+      const task = await request.json();
+      const data = await updateTask(taskId, task);
+      return jsonResponse(request, 200, data);
     }
 
-    if (req.method === 'DELETE') {
-      if (!checkEditPassword(req)) {
-        return res.status(401).json({ error: 'Wrong or missing edit password' });
+    if (request.method === 'DELETE') {
+      if (!checkEditPassword(request)) {
+        return jsonResponse(request, 401, { error: 'Wrong or missing edit password' });
       }
       const data = await deleteTask(taskId);
-      return res.status(200).json(data);
+      return jsonResponse(request, 200, data);
     }
 
-    return res.status(405).json({ error: 'Method not allowed' });
+    return jsonResponse(request, 405, { error: 'Method not allowed' });
   } catch (err) {
-    return res.status(err.status || 500).json({ error: err.message || 'Internal server error' });
+    return jsonResponse(request, err.status || 500, {
+      error: err.message || 'Internal server error',
+    });
   }
 }
