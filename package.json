@@ -1,0 +1,7 @@
+{
+  "name": "home-calendar",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  }
+}

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Home Almanac</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="page-wrapper">
+
+  <!-- ════════════════════════════════ HEADER ════════════════════════════════ -->
+  <header class="site-header">
+
+    <div class="header-botanical">
+      <!-- Left botanical sprig -->
+      <svg class="botanical-icon" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="width:48px;height:38px;transform:scaleX(-1)">
+        <path d="M38 28 C30 28 8 22 4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+        <ellipse cx="16" cy="9" rx="7" ry="4" fill="currentColor" opacity="0.4" transform="rotate(-40 16 9)"/>
+        <ellipse cx="26" cy="17" rx="7" ry="4" fill="currentColor" opacity="0.35" transform="rotate(-30 26 17)"/>
+        <ellipse cx="10" cy="18" rx="5" ry="3" fill="currentColor" opacity="0.3" transform="rotate(-55 10 18)"/>
+        <circle cx="8" cy="5" r="2" fill="currentColor" opacity="0.5"/>
+        <circle cx="30" cy="10" r="1.5" fill="currentColor" opacity="0.4"/>
+      </svg>
+
+      <h1>The Home Almanac</h1>
+
+      <!-- Right botanical sprig -->
+      <svg class="botanical-icon" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="width:48px;height:38px">
+        <path d="M38 28 C30 28 8 22 4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+        <ellipse cx="16" cy="9" rx="7" ry="4" fill="currentColor" opacity="0.4" transform="rotate(-40 16 9)"/>
+        <ellipse cx="26" cy="17" rx="7" ry="4" fill="currentColor" opacity="0.35" transform="rotate(-30 26 17)"/>
+        <ellipse cx="10" cy="18" rx="5" ry="3" fill="currentColor" opacity="0.3" transform="rotate(-55 10 18)"/>
+        <circle cx="8" cy="5" r="2" fill="currentColor" opacity="0.5"/>
+        <circle cx="30" cy="10" r="1.5" fill="currentColor" opacity="0.4"/>
+      </svg>
+    </div>
+
+    <p class="tagline">a gentle guide to keeping your home well</p>
+
+    <div class="header-divider"></div>
+
+    <!-- Stats -->
+    <div id="stats-bar" class="stats-bar"></div>
+
+    <button type="button" id="view-toggle" class="view-toggle">Full task list</button>
+
+  </header>
+
+  <!-- ════════════════════════════════ ALMANAC SPREAD ════════════════════════════════ -->
+  <section class="almanac-spread" aria-label="Season navigation">
+
+    <button class="page-turn page-turn--prev" id="prev-year" aria-label="Previous season">
+      <svg viewBox="0 0 16 24" width="18" height="28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M12 20 L6 12 L12 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <div class="almanac-page">
+      <p class="season-display" id="year-display"></p>
+      <main>
+        <div class="calendar-grid" id="calendar-grid">
+          <p class="loading-message">Consulting the almanac…</p>
+        </div>
+        <div id="list-view" class="task-list-view" hidden></div>
+      </main>
+    </div>
+
+    <button class="page-turn page-turn--next" id="next-year" aria-label="Next season">
+      <svg viewBox="0 0 16 24" width="18" height="28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M4 4 L10 12 L4 20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+  </section>
+
+  <!-- ════════════════════════════════ FOOTER ════════════════════════════════ -->
+  <footer class="site-footer">
+
+    <!-- Botanical divider -->
+    <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem;opacity:0.5">
+      <div class="botanical-divider-line"></div>
+      <svg viewBox="0 0 32 24" width="32" height="24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="color:var(--sage);flex-shrink:0">
+        <path d="M16 22 C16 12 8 10 4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+        <path d="M16 22 C16 12 24 10 28 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+        <ellipse cx="10" cy="13" rx="5" ry="3" fill="currentColor" opacity="0.35" transform="rotate(-40 10 13)"/>
+        <ellipse cx="22" cy="13" rx="5" ry="3" fill="currentColor" opacity="0.35" transform="rotate(40 22 13)"/>
+        <circle cx="16" cy="22" r="1.5" fill="currentColor" opacity="0.5"/>
+      </svg>
+      <div class="botanical-divider-line"></div>
+    </div>
+
+    <p class="legend-title">Categories</p>
+    <div class="legend-grid">
+      <div class="legend-item">
+        <span class="legend-dot" style="background:var(--cat-lawn)"></span>
+        Lawn &amp; Garden
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot" style="background:var(--cat-raspberries)"></span>
+        Raspberries
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot" style="background:var(--cat-roses)"></span>
+        Roses
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot" style="background:var(--cat-exterior)"></span>
+        Exterior
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot" style="background:var(--cat-pest)"></span>
+        Trees &amp; Forest
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot" style="background:var(--cat-hvac)"></span>
+        HVAC
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot" style="background:var(--cat-deck)"></span>
+        Deck
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot" style="background:var(--cat-pickleball)"></span>
+        Pickleball Court
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot" style="background:var(--cat-plumbing)"></span>
+        Plumbing
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot" style="background:var(--cat-safety)"></span>
+        Safety
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot" style="background:var(--cat-interior)"></span>
+        Interior
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot" style="background:var(--cat-dogs)"></span>
+        Dogs &amp; Pets
+      </div>
+    </div>
+
+    <p class="footer-note">
+      Click any task to mark it done &mdash; click again to unmark. Use the full task list to add, edit, or remove tasks. Task changes are saved to <code>data.json</code>; the original dataset is preserved in <code>data.origin.json</code>.
+    </p>
+
+  </footer>
+
+</div>
+
+<!-- Task editor modal -->
+<div id="task-editor" class="task-editor" hidden aria-hidden="true">
+  <div class="task-editor-backdrop"></div>
+  <div class="task-editor-dialog" role="dialog" aria-modal="true" aria-labelledby="task-editor-title">
+    <h2 id="task-editor-title" class="task-editor-title">Add task</h2>
+    <form id="task-editor-form" class="task-editor-form">
+      <label class="task-editor-field">
+        <span class="task-editor-label">Task name</span>
+        <input type="text" name="name" required autocomplete="off" />
+      </label>
+
+      <label class="task-editor-field">
+        <span class="task-editor-label">Category</span>
+        <select name="category">
+          <option value="Lawn & Garden">Lawn &amp; Garden</option>
+          <option value="Raspberries">Raspberries</option>
+          <option value="Roses">Roses</option>
+          <option value="Exterior">Exterior</option>
+          <option value="Trees & Forest">Trees &amp; Forest</option>
+          <option value="HVAC">HVAC</option>
+          <option value="Deck">Deck</option>
+          <option value="Pickleball Court">Pickleball Court</option>
+          <option value="Plumbing">Plumbing</option>
+          <option value="Safety">Safety</option>
+          <option value="Interior">Interior</option>
+          <option value="Dogs & Pets">Dogs &amp; Pets</option>
+        </select>
+      </label>
+
+      <label class="task-editor-field">
+        <span class="task-editor-label">Schedule</span>
+        <select name="scheduleType">
+          <option value="months-of-year">Specific months each year</option>
+          <option value="every-n-years">Every N years</option>
+          <option value="every-n-months">Every N months</option>
+        </select>
+      </label>
+
+      <fieldset class="task-editor-fieldset" data-schedule="months-of-year">
+        <legend class="task-editor-label">Months</legend>
+        <div class="task-editor-months">
+          <label><input type="checkbox" name="month-1" /> Jan</label>
+          <label><input type="checkbox" name="month-2" /> Feb</label>
+          <label><input type="checkbox" name="month-3" /> Mar</label>
+          <label><input type="checkbox" name="month-4" /> Apr</label>
+          <label><input type="checkbox" name="month-5" /> May</label>
+          <label><input type="checkbox" name="month-6" /> Jun</label>
+          <label><input type="checkbox" name="month-7" /> Jul</label>
+          <label><input type="checkbox" name="month-8" /> Aug</label>
+          <label><input type="checkbox" name="month-9" /> Sep</label>
+          <label><input type="checkbox" name="month-10" /> Oct</label>
+          <label><input type="checkbox" name="month-11" /> Nov</label>
+          <label><input type="checkbox" name="month-12" /> Dec</label>
+        </div>
+      </fieldset>
+
+      <div class="task-editor-fieldset" data-schedule="every-n-years" hidden>
+        <label class="task-editor-field">
+          <span class="task-editor-label">Every how many years?</span>
+          <input type="number" name="intervalYears" min="1" max="20" value="2" />
+        </label>
+        <label class="task-editor-field">
+          <span class="task-editor-label">Default month</span>
+          <select name="defaultMonthYears">
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="task-editor-fieldset" data-schedule="every-n-months" hidden>
+        <label class="task-editor-field">
+          <span class="task-editor-label">Every how many months?</span>
+          <input type="number" name="intervalMonths" min="1" max="12" value="3" />
+        </label>
+        <label class="task-editor-field">
+          <span class="task-editor-label">Starting month</span>
+          <select name="defaultMonthInterval">
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="task-editor-actions">
+        <button type="button" id="task-editor-delete" class="task-editor-btn task-editor-btn--danger" hidden>Delete</button>
+        <div class="task-editor-actions-right">
+          <button type="button" id="task-editor-cancel" class="task-editor-btn task-editor-btn--ghost">Cancel</button>
+          <button type="submit" class="task-editor-btn task-editor-btn--primary">Save</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,993 @@
+{
+  "tasks": [
+    {
+      "id": "lawn-moss-control",
+      "name": "Lawn moss control treatment",
+      "category": "Lawn & Garden",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          3
+        ]
+      },
+      "notes": "Apply before grass fully greens up. Use iron sulfate or moss-out product. PNW lawns battle moss year-round in shaded, wet conditions."
+    },
+    {
+      "id": "mower-service",
+      "name": "Sharpen mower blades / service mower",
+      "category": "Lawn & Garden",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          3
+        ]
+      },
+      "notes": "Sharp blades prevent tearing, which invites fungal disease. Change oil and spark plug annually. Mow season in Sammamish runs March through November."
+    },
+    {
+      "id": "lawn-fertilize-spring",
+      "name": "Fertilize lawn — spring kickoff",
+      "category": "Lawn & Garden",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          3
+        ]
+      },
+      "notes": "Light feed to restart the season. Use a balanced, slow-release fertilizer. Avoid phosphorus products to protect local waterways (King County requirement)."
+    },
+    {
+      "id": "slug-control",
+      "name": "Slug control in garden beds",
+      "category": "Lawn & Garden",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          3,
+          5
+        ]
+      },
+      "notes": "Slugs are endemic in PNW wet springs. Use iron phosphate baits (pet-safe). Place near raspberries, roses, and garden borders."
+    },
+    {
+      "id": "pre-emergent",
+      "name": "Apply pre-emergent herbicide",
+      "category": "Lawn & Garden",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          4
+        ]
+      },
+      "notes": "Apply when soil reaches 55°F (typically April in Sammamish). Prevents crabgrass and annual weeds. Do NOT apply if overseeding — it blocks grass germination too."
+    },
+    {
+      "id": "mulch-beds",
+      "name": "Mulch garden beds",
+      "category": "Lawn & Garden",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          4
+        ]
+      },
+      "notes": "Apply 2–3 inches of arborist chips or bark. Suppresses weeds, retains moisture for summer dry season, and insulates roots."
+    },
+    {
+      "id": "trim-shrubs",
+      "name": "Trim trees & shrubs",
+      "category": "Lawn & Garden",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          4,
+          10
+        ]
+      },
+      "notes": "Remove dead wood and cross-branches. Keep shrubs 18\" from house foundation. Fall trim prepares plants for winter storms."
+    },
+    {
+      "id": "irrigation-startup",
+      "name": "Start up irrigation system",
+      "category": "Lawn & Garden",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          4
+        ]
+      },
+      "notes": "Check all heads for winter damage. Adjust zones for spring. Inspect backflow preventer. PNW dry season typically begins in June."
+    },
+    {
+      "id": "lawn-fertilize-latespring",
+      "name": "Fertilize lawn — late spring",
+      "category": "Lawn & Garden",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          5
+        ]
+      },
+      "notes": "Second feeding before dry season. Use slow-release nitrogen. Skip in July–August — do NOT fertilize cool-season grasses in peak heat."
+    },
+    {
+      "id": "lawn-aerate",
+      "name": "Aerate lawn",
+      "category": "Lawn & Garden",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          9
+        ]
+      },
+      "notes": "September is the primary PNW aeration window per WSU Extension. Wet Sammamish soil aerates cleanly in fall. Core aerate — do this SAME session as overseeding."
+    },
+    {
+      "id": "lawn-overseed",
+      "name": "Overseed lawn",
+      "category": "Lawn & Garden",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          9
+        ]
+      },
+      "notes": "THE most important lawn month per WSU and King County extension. Seed immediately after aerating. Use tall fescue/perennial ryegrass mix for Sammamish. Warm soil + cool air = best germination."
+    },
+    {
+      "id": "lawn-fertilize-fall",
+      "name": "Fertilize lawn — fall recovery",
+      "category": "Lawn & Garden",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          9
+        ]
+      },
+      "notes": "Most important fertilizer application of the year for cool-season lawns. Apply starter fertilizer with overseeding. Fall roots develop more than any other season."
+    },
+    {
+      "id": "crane-fly-treatment",
+      "name": "Crane fly / leatherjacket grub treatment",
+      "category": "Lawn & Garden",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          9
+        ]
+      },
+      "notes": "European crane fly is the #1 lawn pest in western Washington. Eggs hatch Sept–Oct. Treat with beneficial nematodes (Steinernema feltiae) or spinosad before larvae damage roots through winter."
+    },
+    {
+      "id": "irrigation-winterize",
+      "name": "Winterize irrigation system",
+      "category": "Lawn & Garden",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          10
+        ]
+      },
+      "notes": "Blow out lines before first freeze. Sammamish freezes are infrequent but real — uninsulated lines will crack. Drain all above-grade components."
+    },
+    {
+      "id": "lawn-fertilize-winterizer",
+      "name": "Fertilize lawn — winterizer",
+      "category": "Lawn & Garden",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          11
+        ]
+      },
+      "notes": "Light slow-release application by mid-November. Builds root reserves for winter. Do not apply after grass goes fully dormant."
+    },
+    {
+      "id": "raspberry-winter-prune",
+      "name": "Prune & train raspberry canes",
+      "category": "Raspberries",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          2
+        ]
+      },
+      "notes": "Late January–February per WSU Extension. Remove all spent (brown) floricanes at ground level. Select 8–15 healthiest primocanes, tie to trellis. Tip to 4.5–6 ft above top wire. Do NOT top in fall — cold injury risk."
+    },
+    {
+      "id": "raspberry-fertilize-1",
+      "name": "Fertilize raspberries — first application",
+      "category": "Raspberries",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          4
+        ]
+      },
+      "notes": "Late March–early April per WSU/OSU Northwest extension. Apply balanced fertilizer as buds swell. Broadcast over row and water in immediately. Avoid getting fertilizer on canes."
+    },
+    {
+      "id": "raspberry-pest-inspect",
+      "name": "Inspect raspberries for aphids & cane borers",
+      "category": "Raspberries",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          5
+        ]
+      },
+      "notes": "Check undersides of leaves for aphid colonies. Look for wilted cane tips (cane borer). Remove and destroy affected canes. Introduce ladybugs or apply insecticidal soap if needed."
+    },
+    {
+      "id": "raspberry-fertilize-2",
+      "name": "Fertilize raspberries — second application",
+      "category": "Raspberries",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          6
+        ]
+      },
+      "notes": "Late May–early June per WSU/OSU Northwest extension. Second nitrogen application supports cane development. Water in immediately after applying."
+    },
+    {
+      "id": "raspberry-summer-water",
+      "name": "Check raspberry supplemental irrigation",
+      "category": "Raspberries",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          7
+        ]
+      },
+      "notes": "Raspberries need deep watering in PNW dry season (June–September). 1–2 inches per week. Drip or soaker hose preferred. Drought stress dramatically reduces yields."
+    },
+    {
+      "id": "raspberry-floricane-removal",
+      "name": "Remove spent floricanes after harvest",
+      "category": "Raspberries",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          8
+        ]
+      },
+      "notes": "Cut all brown/spent canes to ground level after last harvest. This improves airflow and reduces disease. Per WSU: retain only green primocanes for next year's crop."
+    },
+    {
+      "id": "rose-major-pruning",
+      "name": "Major rose pruning",
+      "category": "Roses",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          2
+        ]
+      },
+      "notes": "Prune when forsythia blooms — the PNW indicator per WSU and Tacoma Rose Society. End of February in western WA. Remove all but 4–5 healthy canes. Cut to no wood thinner than a pencil. Make cuts 3/8\" above outward-facing bud scars."
+    },
+    {
+      "id": "rose-dormant-spray-spring",
+      "name": "Dormant spray on roses — spring",
+      "category": "Roses",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          2
+        ]
+      },
+      "notes": "Apply copper or lime-sulfur mixed with horticultural oil immediately after pruning, while canes are still leafless. Kills overwintering fungal spores and scale insects. Do not apply once new growth begins."
+    },
+    {
+      "id": "rose-fertilize",
+      "name": "Fertilize roses",
+      "category": "Roses",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      },
+      "notes": "Monthly April through August per Tacoma Rose Society — ~3/4 lb balanced rose fertilizer per full-sized bush. Stop after mid-August; late feeding encourages soft growth vulnerable to frost."
+    },
+    {
+      "id": "rose-blackspot-watch",
+      "name": "Watch for & treat black spot / mildew",
+      "category": "Roses",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          5
+        ]
+      },
+      "notes": "Black spot is the #1 rose disease in PNW wet springs. Apply fungicide preventively at first leaf-out. Spray every 7–14 days during wet stretches. Remove infected leaves from the ground."
+    },
+    {
+      "id": "rose-deadhead",
+      "name": "Deadhead spent rose blooms",
+      "category": "Roses",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          5,
+          6,
+          7,
+          8
+        ]
+      },
+      "notes": "Cut back to a 5-leaflet leaf facing outward to encourage rebloom. Stop deadheading in early September — late pruning encourages new growth vulnerable to early frosts."
+    },
+    {
+      "id": "rose-fall-cleanup",
+      "name": "Rose fall cleanup",
+      "category": "Roses",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          10
+        ]
+      },
+      "notes": "Remove ALL fallen leaves from around base — harbors overwintering disease spores. Light trim to tidy up. Head back canes to 3–4 ft to reduce wind-rock damage in winter storms."
+    },
+    {
+      "id": "rose-dormant-spray-winter",
+      "name": "Dormant spray on roses — winter",
+      "category": "Roses",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          12
+        ]
+      },
+      "notes": "Per Tacoma Rose Society: apply dormant copper spray in December to knock back disease that lingers through dormancy. Plant should be fully dormant and leafless."
+    },
+    {
+      "id": "moss-driveway-walk",
+      "name": "Treat moss on driveway & walkways",
+      "category": "Exterior",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          3
+        ]
+      },
+      "notes": "Sammamish shade + moisture = dangerous moss on hardscapes. Apply zinc sulfate or iron sulfate wash before it becomes a slip hazard. Pressure wash after die-off (4–6 weeks)."
+    },
+    {
+      "id": "gutters-clean-spring",
+      "name": "Clean gutters & downspouts — spring",
+      "category": "Exterior",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          4
+        ]
+      },
+      "notes": "Forested Sammamish properties require 3x/year minimum per local contractors. Spring clean catches winter debris, pine needles, and moss clogs before rainy season ends."
+    },
+    {
+      "id": "power-wash",
+      "name": "Power wash siding, walkways & driveway",
+      "category": "Exterior",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          5
+        ]
+      },
+      "notes": "Use low pressure on siding (< 1,500 PSI). Remove algae, lichen, and winter grime. Include pickleball court area and driveway in the same session."
+    },
+    {
+      "id": "gutters-clean-summer",
+      "name": "Clean gutters — mid-year check",
+      "category": "Exterior",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          7
+        ]
+      },
+      "notes": "Forested properties with Douglas fir and cedar accumulate needles and debris through summer. Combine with the professional roof inspection visit."
+    },
+    {
+      "id": "roof-inspect",
+      "name": "Professional roof inspection",
+      "category": "Exterior",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          7
+        ]
+      },
+      "notes": "Per Atrax Roof & Gutter (Eastside WA specialists): schedule in summer (June–August preferred). Roofer checks all flashing, penetrations, and attic. Ask for moss assessment and zinc strip placement check."
+    },
+    {
+      "id": "roof-moss-treatment",
+      "name": "Apply zinc sulfate roof moss treatment",
+      "category": "Exterior",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          9
+        ]
+      },
+      "notes": "Early fall — BEFORE rainy season — is most effective per Atrax, Bekman LLC, and Roosevelt Roofing. Under heavy Sammamish tree cover, annual treatment is the standard. Moss holds moisture and lifts shingles."
+    },
+    {
+      "id": "caulk-windows-doors",
+      "name": "Inspect & caulk windows and doors",
+      "category": "Exterior",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          9
+        ]
+      },
+      "notes": "Before the rainy season starts in October. Remove old failed caulk entirely before reapplying. Use exterior silicone rated for wet climates. Check sills, frames, and trim."
+    },
+    {
+      "id": "weatherstripping",
+      "name": "Check & replace weatherstripping",
+      "category": "Exterior",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          9
+        ]
+      },
+      "notes": "Inspect all exterior doors before heating season. Foam tape is cheapest; V-strip or door sweeps last longer. Reduces energy loss during long PNW heating season."
+    },
+    {
+      "id": "gutters-clean-fall",
+      "name": "Clean gutters — post-leaf drop",
+      "category": "Exterior",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          11
+        ]
+      },
+      "notes": "Most critical gutter cleaning of the year — after deciduous trees drop fully but before peak winter rain. In Sammamish, late November is the sweet spot. Check downspout extensions direct water away from foundation."
+    },
+    {
+      "id": "roof-storm-check",
+      "name": "Post-storm roof & exterior check",
+      "category": "Exterior",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          1
+        ]
+      },
+      "notes": "Sammamish gets significant wind events December–February. Walk perimeter after any major storm. Look for displaced flashing, lifted shingles, broken gutters, or downed branches on roof. Binoculars from ground is fine."
+    },
+    {
+      "id": "exterior-restain",
+      "name": "Repaint / restain exterior wood",
+      "category": "Exterior",
+      "schedule": {
+        "type": "every-n-years",
+        "years": 6,
+        "defaultMonth": 7
+      },
+      "notes": "PNW exterior wood needs protection every 5–7 years. Do in dry season (July–August). Prep thoroughly: clean, sand, prime bare wood. Use a product rated for constant moisture exposure."
+    },
+    {
+      "id": "tree-hazard-inspect",
+      "name": "Hazard tree visual inspection",
+      "category": "Trees & Forest",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          9
+        ]
+      },
+      "notes": "Before PNW storm season (Oct–Feb). Walk property and note any dead crowns, large hanging limbs, leaning, or root heave. Sammamish requires ISA TRAQ-certified arborist for significant tree removal permits. Phone photos help track changes year to year."
+    },
+    {
+      "id": "branches-from-roof",
+      "name": "Trim branches away from roof",
+      "category": "Trees & Forest",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          7
+        ]
+      },
+      "notes": "Minimum 10 ft clearance from roofline per Sammamish roofers. Branches touching roof deposit debris, trap moisture, and accelerate moss growth. Pruning <30% of branches does NOT require a city permit in Sammamish."
+    },
+    {
+      "id": "arborist-assessment",
+      "name": "ISA arborist professional assessment",
+      "category": "Trees & Forest",
+      "schedule": {
+        "type": "every-n-years",
+        "years": 3,
+        "defaultMonth": 9
+      },
+      "notes": "Required for any significant tree (8\"+ DBH conifer / 12\"+ deciduous) removal permit in Sammamish. City code requires ISA TRAQ-certified arborist assessment. Also valuable for proactive identification of hidden decay and storm risk."
+    },
+    {
+      "id": "forest-buffer",
+      "name": "Maintain woodchip buffer — forest/lawn edge",
+      "category": "Trees & Forest",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          4
+        ]
+      },
+      "notes": "Maintain 3–6 ft wide woodchip or gravel border between lawn and forest edge per Redi National Pest Eliminators. Interrupts tick/flea migration into yard. Critical for two-dog household adjacent to heavy forest."
+    },
+    {
+      "id": "firewood-stack",
+      "name": "Firewood stack — pest check & restack",
+      "category": "Trees & Forest",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          10
+        ]
+      },
+      "notes": "Keep firewood stacked at least 18\" from house on a raised platform. Woodpiles are prime rodent and carpenter ant harborage. Check for moisture and rot. Move any pile that has ground contact."
+    },
+    {
+      "id": "heat-pump-spring-service",
+      "name": "Service heat pump — spring tune-up",
+      "category": "HVAC",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          4
+        ]
+      },
+      "notes": "Pre-cooling season service. Technician checks refrigerant, coils, reversing valve, and electrical connections. Heat pumps run year-round in PNW — twice-yearly service is the recommended minimum per all WA HVAC sources."
+    },
+    {
+      "id": "heat-pump-fall-service",
+      "name": "Service heat pump & furnace — fall tune-up",
+      "category": "HVAC",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          9
+        ]
+      },
+      "notes": "Pre-heating season service. Combine heat pump and furnace tune-up in one visit to save cost. Technician tests defrost cycle (critical in near-freezing PNW winters) and verifies backup furnace operation."
+    },
+    {
+      "id": "hvac-filters",
+      "name": "Replace HVAC filters",
+      "category": "HVAC",
+      "schedule": {
+        "type": "every-n-months",
+        "months": 2,
+        "defaultMonth": 1
+      },
+      "notes": "Every 6–8 weeks recommended with two dogs. Pet dander, fur, and outdoor pollen load filters faster than the standard 3-month guideline. Keep 2–3 spare filters on hand. Use MERV 8–11."
+    },
+    {
+      "id": "heat-pump-unit-clear",
+      "name": "Clear debris from outdoor heat pump unit",
+      "category": "HVAC",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          4,
+          10
+        ]
+      },
+      "notes": "Remove fir needles, leaves, and debris from around the outdoor unit. Maintain 2 ft of clearance on all sides. Rinse coils gently with hose if caked with pollen (low pressure only). Never cover unit."
+    },
+    {
+      "id": "dryer-vent",
+      "name": "Clean dryer vent duct",
+      "category": "HVAC",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          10
+        ]
+      },
+      "notes": "Clogged dryer vents are a leading cause of house fires. Clean the full duct run from dryer to exterior cap. Check that exterior vent flap opens freely — debris from forested yard can clog it."
+    },
+    {
+      "id": "range-hood-filter",
+      "name": "Clean range hood filters",
+      "category": "HVAC",
+      "schedule": {
+        "type": "every-n-months",
+        "months": 3,
+        "defaultMonth": 1
+      },
+      "notes": "Remove metal mesh filters and soak in hot soapy water or run through dishwasher. Grease buildup is a fire hazard. Also wipe down the hood interior."
+    },
+    {
+      "id": "deck-spring-inspect",
+      "name": "Post-winter deck inspection",
+      "category": "Deck",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          3
+        ]
+      },
+      "notes": "Check for soft spots, rot, and loose fasteners — especially at ledger board, post bases, and stair stringers. Probe with screwdriver in suspect areas. PNW moisture works into end grain and connections first."
+    },
+    {
+      "id": "deck-deep-clean",
+      "name": "Deep clean / low-pressure wash deck",
+      "category": "Deck",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          5
+        ]
+      },
+      "notes": "Remove moss, algae, and mildew with deck cleaner solution before rinsing. Clean between boards. Do not use high pressure — it raises wood grain. Sweep fir needles from between boards regularly."
+    },
+    {
+      "id": "deck-stain-seal",
+      "name": "Water bead test + restain / reseal deck",
+      "category": "Deck",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          7
+        ]
+      },
+      "notes": "July–early September is the only reliable 48-hour dry window in western WA. If water soaks in vs. beading, restain is needed. PNW baseline is every 1–2 years. Use oil-based stain for longest life in wet climates."
+    },
+    {
+      "id": "deck-fall-clear",
+      "name": "Clear debris from deck boards",
+      "category": "Deck",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          11
+        ]
+      },
+      "notes": "After deciduous leaf drop. Debris trapped between boards traps moisture and accelerates rot. Pay special attention to areas under patio furniture and corners with poor drainage."
+    },
+    {
+      "id": "deck-ledger-inspect",
+      "name": "Inspect deck ledger board & connections",
+      "category": "Deck",
+      "schedule": {
+        "type": "every-n-years",
+        "years": 2,
+        "defaultMonth": 9
+      },
+      "notes": "Ledger-to-house connection is the most critical structural point. Check for flashing failures, rot, and fastener corrosion. Most common failure point in PNW decks and the highest safety risk."
+    },
+    {
+      "id": "court-spring-wash",
+      "name": "Low-pressure wash pickleball court",
+      "category": "Pickleball Court",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          4
+        ]
+      },
+      "notes": "Clear winter's accumulation of moss, algae, fir needles, and pollen. Use < 1,500 PSI — high pressure damages acrylic surface coating. Apply court cleaner concentrate to remove embedded algae and mildew."
+    },
+    {
+      "id": "court-crack-inspect",
+      "name": "Inspect court surface for cracks",
+      "category": "Pickleball Court",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          4,
+          10
+        ]
+      },
+      "notes": "Fill any new hairline cracks immediately with acrylic-based sport court filler — small cracks expand quickly in PNW freeze/thaw cycles. Never use standard concrete caulk or rigid fillers."
+    },
+    {
+      "id": "court-net-posts",
+      "name": "Inspect pickleball net, posts & fencing",
+      "category": "Pickleball Court",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          4
+        ]
+      },
+      "notes": "Check post anchors for wobble or rust. Inspect net for UV degradation and tears. Check fence for damage from winter storms or fallen branches. Test net height (34\" at center, 36\" at sides)."
+    },
+    {
+      "id": "court-lines-repaint",
+      "name": "Repaint pickleball court lines",
+      "category": "Pickleball Court",
+      "schedule": {
+        "type": "every-n-years",
+        "years": 4,
+        "defaultMonth": 5
+      },
+      "notes": "Use acrylic-based sport court line paint — not house paint. Apply in warm dry weather. Lines fade faster on north-facing or shaded courts under tree cover. Do in May before peak play season."
+    },
+    {
+      "id": "court-net-replace",
+      "name": "Replace pickleball net",
+      "category": "Pickleball Court",
+      "schedule": {
+        "type": "every-n-years",
+        "years": 3,
+        "defaultMonth": 4
+      },
+      "notes": "Outdoor nets typically last 2–4 years. UV exposure and PNW moisture degrade netting and cables faster than in drier climates."
+    },
+    {
+      "id": "court-resurface",
+      "name": "Professional court resurface",
+      "category": "Pickleball Court",
+      "schedule": {
+        "type": "every-n-years",
+        "years": 8,
+        "defaultMonth": 5
+      },
+      "notes": "Full resurface: crack repair, base coat, color coat, and new line striping. Most outdoor courts need this every 5–8 years (asphalt) or 8–12 years (concrete). Schedule in dry season. Cost: $3–8/sq ft."
+    },
+    {
+      "id": "sump-pump-inspect",
+      "name": "Inspect sump pump",
+      "category": "Plumbing",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          3
+        ]
+      },
+      "notes": "Before spring rain season. Pour water into pit to test float switch. Check discharge line is clear and directing water away from foundation. PNW springs are wet — sump failure is a basement flooding event."
+    },
+    {
+      "id": "hose-bibs-on",
+      "name": "Turn on & test exterior hose bibs",
+      "category": "Plumbing",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          4
+        ]
+      },
+      "notes": "Inspect for freeze cracks from winter. Check all connections for drips. A cracked bib inside the wall can cause hidden water damage — if you see pressure drop when bib is fully open, call a plumber."
+    },
+    {
+      "id": "leak-check",
+      "name": "Check under sinks for leaks",
+      "category": "Plumbing",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          4,
+          10
+        ]
+      },
+      "notes": "Inspect supply lines, P-traps, and drain connections. Look for water stains, mineral deposits, or soft cabinet floors. Check washing machine hoses too — replace rubber with braided stainless if not already."
+    },
+    {
+      "id": "water-heater-flush",
+      "name": "Flush water heater",
+      "category": "Plumbing",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          10
+        ]
+      },
+      "notes": "Drain sediment to improve efficiency and extend tank life. Sammamish water has moderate mineral content. Flush until water runs clear."
+    },
+    {
+      "id": "hose-bibs-off",
+      "name": "Winterize exterior hose bibs",
+      "category": "Plumbing",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          11
+        ]
+      },
+      "notes": "Disconnect hoses before freezing temps (Sammamish typically November). Close interior shutoffs if present. Even frost-free bibs need hoses removed — a connected hose defeats the frost-free design."
+    },
+    {
+      "id": "sewer-jetting",
+      "name": "Sewer line inspection / jetting",
+      "category": "Plumbing",
+      "schedule": {
+        "type": "every-n-years",
+        "years": 5,
+        "defaultMonth": 4
+      },
+      "notes": "Camera inspection and jetting clears root intrusion, grease, and debris from main sewer line. Sammamish has mature tree canopy — roots are a real concern. Preventive jetting is far cheaper than an emergency backup."
+    },
+    {
+      "id": "fire-extinguisher",
+      "name": "Fire extinguisher inspection",
+      "category": "Safety",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          1
+        ]
+      },
+      "notes": "Check pressure gauge is in green zone. Inspect for physical damage. Replace or recharge if past 12 years or if gauge is low. Keep one in kitchen, garage, and near fireplace if applicable."
+    },
+    {
+      "id": "first-aid-kit",
+      "name": "Restock first aid kit",
+      "category": "Safety",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          1
+        ]
+      },
+      "notes": "Check expiry dates on medications, antiseptics, and bandages. Replace used or expired items. Include tick removal tools (fine-tipped tweezers) given forested property and two dogs."
+    },
+    {
+      "id": "smoke-co-test",
+      "name": "Test smoke & CO detectors",
+      "category": "Safety",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          4,
+          10
+        ]
+      },
+      "notes": "Press test button on each unit. Vacuum dust from vents. CO detectors are critical with a furnace. Replace any detector older than 10 years (smoke) or 7 years (CO)."
+    },
+    {
+      "id": "storm-kit-check",
+      "name": "Storm / power outage kit check",
+      "category": "Safety",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          10
+        ]
+      },
+      "notes": "Before PNW storm season. Heavily forested areas in Sammamish are vulnerable to extended outages. Stock: 3+ days water and food for 2 people + 2 dogs, flashlights with fresh batteries, portable phone charger, hand-crank radio, and warm layers."
+    },
+    {
+      "id": "detector-batteries",
+      "name": "Replace detector batteries",
+      "category": "Safety",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          11
+        ]
+      },
+      "notes": "Replace when clocks fall back. Even units with sealed 10-year batteries should be tested. Check emergency flashlights and headlamps at the same time."
+    },
+    {
+      "id": "appliance-deep-clean",
+      "name": "Deep clean appliances",
+      "category": "Interior",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          1
+        ]
+      },
+      "notes": "Clean oven thoroughly. Vacuum refrigerator coils (bottom front or back). Clean dishwasher filter. Run washing machine drum cleaning cycle. With two dogs, pet hair in appliances is a real issue."
+    },
+    {
+      "id": "wash-windows",
+      "name": "Wash windows inside & out",
+      "category": "Interior",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          4,
+          10
+        ]
+      },
+      "notes": "Clean tracks and sills too. Check for cracked glazing and fogged double panes. PNW moss and pollen coat exterior glass heavily — April clean restores natural light after gray winter."
+    },
+    {
+      "id": "crawl-space-check",
+      "name": "Inspect crawl space for moisture & pests",
+      "category": "Interior",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          4,
+          10
+        ]
+      },
+      "notes": "Critical in PNW. Check vapor barrier integrity — any tears allow ground moisture to rot floor joists. Look for standing water, efflorescence, pest activity, and insulation displacement."
+    },
+    {
+      "id": "attic-inspect",
+      "name": "Inspect attic insulation & ventilation",
+      "category": "Interior",
+      "schedule": {
+        "type": "every-n-years",
+        "years": 3,
+        "defaultMonth": 10
+      },
+      "notes": "Check for moisture damage, pest intrusion, and adequate R-value. Sammamish heavy rainfall and condensation can degrade insulation over time. Check that soffits and ridge vents are not blocked."
+    },
+    {
+      "id": "vapor-barrier",
+      "name": "Check crawl space vapor barrier",
+      "category": "Interior",
+      "schedule": {
+        "type": "every-n-years",
+        "years": 2,
+        "defaultMonth": 10
+      },
+      "notes": "Inspect for tears, gaps, and contact with wood members. A 6-mil polyethylene barrier should cover the entire ground area with 12\" overlaps at seams. Critical moisture management in PNW homes."
+    },
+    {
+      "id": "vet-flea-tick-review",
+      "name": "Annual vet flea / tick prevention review",
+      "category": "Dogs & Pets",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          3
+        ]
+      },
+      "notes": "PNW fleas are active year-round per Dogster veterinary review. Western black-legged tick (Ixodes) season begins in spring. Year-round prevention is increasingly recommended in Sammamish forested areas."
+    },
+    {
+      "id": "forest-tick-buffer",
+      "name": "Refresh tick & flea barrier at forest edge",
+      "category": "Dogs & Pets",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          4
+        ]
+      },
+      "notes": "Per Redi National Pest Eliminators: maintain 3–6 ft wide woodchip or gravel barrier between lawn and forest edge. Ticks migrate from forested edges into yards. Replenish barrier material in spring."
+    },
+    {
+      "id": "dog-area-sanitize",
+      "name": "Sanitize dog run / pet high-traffic areas",
+      "category": "Dogs & Pets",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          4,
+          10
+        ]
+      },
+      "notes": "Remove accumulated waste, apply enzymatic yard deodorizer, and rinse. Waste buildup harbors parasites, attracts flies, and can contaminate yard drainage in PNW rain."
+    },
+    {
+      "id": "toxic-plant-check",
+      "name": "Check yard for toxic plants near dog areas",
+      "category": "Dogs & Pets",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          4
+        ]
+      },
+      "notes": "Spring growth brings new shoots. PNW-common plants toxic to dogs: foxglove, rhododendron, yew, nightshade, and certain mushrooms. Walk the yard with an ASPCA toxic plant list after spring green-up."
+    },
+    {
+      "id": "yard-nematodes",
+      "name": "Apply beneficial nematodes to yard",
+      "category": "Dogs & Pets",
+      "schedule": {
+        "type": "months-of-year",
+        "months": [
+          5
+        ]
+      },
+      "notes": "Apply Steinernema feltiae nematodes in May when soil is warm and moist. Targets flea larvae, crane fly larvae, and other soil-dwelling pests. Pet- and garden-safe. Purchase live nematodes and apply same day. Water in well."
+    }
+  ]
+}
