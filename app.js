@@ -268,13 +268,48 @@ async function loadTasksFromServer() {
   return data.tasks;
 }
 
-function getEditPassword() {
-  let password = sessionStorage.getItem(EDIT_PASSWORD_KEY);
-  if (password) return password;
+let passwordPromptResolver = null;
 
-  password = prompt('Enter the edit password to save changes:');
+function openPasswordGate({ wrongPassword = false } = {}) {
+  const overlay = document.getElementById('password-gate');
+  const form = document.getElementById('password-gate-form');
+  const errorEl = document.getElementById('password-gate-error');
+  if (!overlay || !form) return Promise.resolve(null);
+
+  errorEl.hidden = !wrongPassword;
+  overlay.classList.toggle('password-gate--error', wrongPassword);
+  form.elements.password.value = '';
+  overlay.hidden = false;
+  overlay.setAttribute('aria-hidden', 'false');
+  form.elements.password.focus();
+
+  return new Promise(resolve => {
+    passwordPromptResolver = resolve;
+  });
+}
+
+function closePasswordGate(password = null) {
+  const overlay = document.getElementById('password-gate');
+  if (overlay) {
+    overlay.hidden = true;
+    overlay.setAttribute('aria-hidden', 'true');
+    overlay.classList.remove('password-gate--error');
+  }
+  if (passwordPromptResolver) {
+    passwordPromptResolver(password);
+    passwordPromptResolver = null;
+  }
+}
+
+async function getEditPassword({ forcePrompt = false, wrongPassword = false } = {}) {
+  if (!forcePrompt) {
+    const stored = sessionStorage.getItem(EDIT_PASSWORD_KEY);
+    if (stored) return stored;
+  }
+
+  const password = await openPasswordGate({ wrongPassword });
   if (password) sessionStorage.setItem(EDIT_PASSWORD_KEY, password);
-  return password;
+  return password || null;
 }
 
 function clearEditPassword() {
@@ -285,7 +320,7 @@ async function apiRequest(method, url, body) {
   const headers = {};
   if (body) headers['Content-Type'] = 'application/json';
   if (tasksApiRequiresPassword && method !== 'GET') {
-    const password = getEditPassword();
+    const password = await getEditPassword();
     if (!password) throw new Error('Edit password required');
     headers['X-Edit-Password'] = password;
   }
@@ -305,7 +340,9 @@ async function apiRequest(method, url, body) {
 
   if (res.status === 401 && tasksApiRequiresPassword) {
     clearEditPassword();
-    throw new Error('Wrong edit password');
+    const err = new Error('Wrong edit password');
+    err.code = 'WRONG_EDIT_PASSWORD';
+    throw err;
   }
 
   if (!res.ok) {
@@ -1052,7 +1089,12 @@ async function handleTaskEditorSubmit(event) {
     closeTaskEditor();
     renderAll();
   } catch (err) {
-    alert(`Could not save task: ${err.message}`);
+    if (err.code === 'WRONG_EDIT_PASSWORD') {
+      await getEditPassword({ forcePrompt: true, wrongPassword: true });
+    }
+    alert(err.code === 'WRONG_EDIT_PASSWORD'
+      ? 'Wrong password — enter it again and click Save.'
+      : `Could not save task: ${err.message}`);
   } finally {
     submitBtn.disabled = false;
   }
@@ -1065,7 +1107,12 @@ async function deleteTaskWithConfirm(task) {
     await deleteTaskRecord(task.id);
     renderAll();
   } catch (err) {
-    alert(`Could not delete task: ${err.message}`);
+    if (err.code === 'WRONG_EDIT_PASSWORD') {
+      await getEditPassword({ forcePrompt: true, wrongPassword: true });
+      alert('Wrong password — try deleting again after entering the correct key.');
+    } else {
+      alert(`Could not delete task: ${err.message}`);
+    }
   }
 }
 
@@ -1093,6 +1140,34 @@ function initTaskEditor() {
 }
 
 initTaskEditor();
+initPasswordGate();
+
+function initPasswordGate() {
+  const overlay = document.getElementById('password-gate');
+  const form = document.getElementById('password-gate-form');
+  if (!overlay || !form) return;
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const password = form.elements.password.value;
+    if (!password.trim()) {
+      form.elements.password.focus();
+      return;
+    }
+    closePasswordGate(password);
+  });
+
+  overlay.querySelector('.password-gate-backdrop').addEventListener('click', () => {
+    closePasswordGate(null);
+  });
+  document.getElementById('password-gate-cancel').addEventListener('click', () => {
+    closePasswordGate(null);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !overlay.hidden) closePasswordGate(null);
+  });
+}
 
 // ── Start ─────────────────────────────────────────────────────
 init();
