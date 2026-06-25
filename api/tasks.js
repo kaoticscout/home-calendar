@@ -26,12 +26,6 @@ function setCors(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Edit-Password');
 }
 
-function sendJson(res, status, body) {
-  res.statusCode = status;
-  res.setHeader('Content-Type', 'application/json; charset=utf-8');
-  res.end(JSON.stringify(body));
-}
-
 function readBody(req) {
   if (req.body && typeof req.body === 'object') return req.body;
   if (typeof req.body === 'string' && req.body.trim()) return JSON.parse(req.body);
@@ -174,11 +168,10 @@ async function deleteTask(taskId) {
   return data;
 }
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   setCors(req, res);
   if (req.method === 'OPTIONS') {
-    res.statusCode = 204;
-    return res.end();
+    return res.status(204).end();
   }
 
   const taskId = decodeURIComponent(req.query?.id || '');
@@ -187,36 +180,36 @@ module.exports = async (req, res) => {
     if (!taskId) {
       if (req.method === 'GET') {
         const { data } = await readDataset();
-        return sendJson(res, 200, data);
+        return res.status(200).json(data);
       }
       if (req.method === 'POST') {
         if (!checkEditPassword(req)) {
-          return sendJson(res, 401, { error: 'Wrong or missing edit password' });
+          return res.status(401).json({ error: 'Wrong or missing edit password' });
         }
         const data = await addTask(readBody(req));
-        return sendJson(res, 201, data);
+        return res.status(201).json(data);
       }
-      return sendJson(res, 405, { error: 'Method not allowed' });
+      return res.status(405).json({ error: 'Method not allowed' });
     }
 
     if (req.method === 'PUT') {
       if (!checkEditPassword(req)) {
-        return sendJson(res, 401, { error: 'Wrong or missing edit password' });
+        return res.status(401).json({ error: 'Wrong or missing edit password' });
       }
       const data = await updateTask(taskId, readBody(req));
-      return sendJson(res, 200, data);
+      return res.status(200).json(data);
     }
 
     if (req.method === 'DELETE') {
       if (!checkEditPassword(req)) {
-        return sendJson(res, 401, { error: 'Wrong or missing edit password' });
+        return res.status(401).json({ error: 'Wrong or missing edit password' });
       }
       const data = await deleteTask(taskId);
-      return sendJson(res, 200, data);
+      return res.status(200).json(data);
     }
 
-    return sendJson(res, 405, { error: 'Method not allowed' });
+    return res.status(405).json({ error: 'Method not allowed' });
   } catch (err) {
-    return sendJson(res, err.status || 500, { error: err.message || 'Internal server error' });
+    return res.status(err.status || 500).json({ error: err.message || 'Internal server error' });
   }
-};
+}
