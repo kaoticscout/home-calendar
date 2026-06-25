@@ -988,18 +988,6 @@
         ]
       },
       "notes": "Apply Steinernema feltiae nematodes in May when soil is warm and moist. Targets flea larvae, crane fly larvae, and other soil-dwelling pests. Pet- and garden-safe. Purchase live nematodes and apply same day. Water in well."
-    },
-    {
-      "id": "custom-test-1782374850694",
-      "name": "TEST",
-      "category": "Lawn & Garden",
-      "schedule": {
-        "type": "months-of-year",
-        "months": [
-          6
-        ]
-      },
-      "notes": ""
     }
   ]
 }
