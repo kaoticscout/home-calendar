@@ -1,5 +1,5 @@
-const { handleCors, sendJson, readBody, checkEditPassword } = require('../lib/http');
-const { updateTask, deleteTask } = require('../lib/github-data');
+const { handleCors, sendJson, readBody, checkEditPassword } = require('../../lib/http');
+const { updateTask, deleteTask } = require('../../lib/github-data');
 
 module.exports = async (req, res) => {
   if (handleCors(req, res)) return;
